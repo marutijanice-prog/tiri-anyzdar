@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тірі аңыздар — WebAR</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+  body { margin:0; font-family: system-ui, sans-serif; background:#000; }
+  #hud { position:fixed; left:0; right:0; top:0; z-index:10; padding:12px 16px; color:#fff; text-align:center;
+         background: linear-gradient(180deg, rgba(18,12,28,.85), transparent); pointer-events:none; }
+  #hud b { color:#ffc40d; }
+  #title { position:fixed; left:50%; bottom:22px; transform:translateX(-50%); z-index:10; background:rgba(18,12,28,.85);
+           color:#fff; padding:10px 18px; border-radius:12px; border:1px solid rgba(255,196,13,.5); display:none; font-weight:700; max-width: 90vw; }
+  #back { position:fixed; left:12px; bottom:22px; z-index:11; color:#1b1200; background:#ffc40d; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:800; }
+  #scan { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; z-index:5; }
+  #scan .frame { width: 62vmin; height: 62vmin; border: 3px dashed rgba(255,196,13,.8); border-radius: 18px; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { transform: scale(1.04); opacity: .6; } }
+</style>
+</head>
+<body>
+<div id="hud"><b>ТІРІ АҢЫЗДАР</b> • камераны кітап бетіне бағытта</div>
+<div id="scan" class="hidden"><div class="frame"></div></div>
+<div id="title"></div>
+<a id="back" href="index.html">⌂</a>
+
+<a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 1; uiScanning: #scan; uiLoading: yes; filterMinCF: 0.0001; filterBeta: 0.001"
+         color-space="sRGB" renderer="colorManagement: true; physicallyCorrectLights: true" vr-mode-ui="enabled: false"
+         device-orientation-permission-ui="enabled: false">
+  <a-assets id="assets"></a-assets>
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-entity light="type: ambient; intensity: 1.2"></a-entity>
+  <a-entity light="type: directional; intensity: 1.6" position="1 2 2"></a-entity>
+  <a-entity id="targets"></a-entity>
+</a-scene>
+
+<script>
+  // Беттер: StoryLibrary.Pages ретімен (targets.mind ішіндегі индекспен сәйкес)
+  const pages = [
+    ["cover","Мұқаба: Қош келдің!"],["et1","Ер Төстік: Ерназардың ұлдары"],["et2","Ер Төстік: Шалқұйрық"],["et3","Ер Төстік: Ағалар мен Кеңжекей"],
+    ["et4","Ер Төстік: Жалмауыз кемпір"],["et5","Ер Төстік: Жер асты елі"],["et6","Ер Төстік: Елге оралу"],
+    ["zh1","Жиренше мен Қарашаш: Кездесу"],["zh2","Жиренше мен Қарашаш: Ханның тоқтысы"],["zh3","Жиренше мен Қарашаш: Бұқаның сүті"],
+    ["zh4","Жиренше мен Қарашаш: Ең қымбат қазына"],["al1","Алпамыс: Байбөрінің тілегі"],["al2","Алпамыс: Гүлбаршынға сапар"],
+    ["al3","Алпамыс: Тайшықтың айласы"],["al4","Алпамыс: Қаракөздің көмегі"],["al5","Алпамыс: Ұлтанның әшкереленуі"],["final","Аңыздар сақшысы"]
+  ];
+  const assets = document.getElementById('assets');
+  const targets = document.getElementById('targets');
+  const title = document.getElementById('title');
+  pages.forEach(([id, name], i) => {
+    const a = document.createElement('a-asset-item');
+    a.setAttribute('id', 'm_' + id); a.setAttribute('src', 'models/' + id + '.glb');
+    assets.appendChild(a);
+    const t = document.createElement('a-entity');
+    t.setAttribute('mindar-image-target', 'targetIndex: ' + i);
+    const m = document.createElement('a-gltf-model');
+    m.setAttribute('src', '#m_' + id);
+    // Диорама беттен «тік көтеріледі» (поп-ап кітап сияқты)
+    m.setAttribute('rotation', '-90 180 0');
+    m.setAttribute('scale', '0 0 0');
+    m.setAttribute('animation__pop', 'property: scale; from: 0.01 0.01 0.01; to: 1 1 1; dur: 900; easing: easeOutBack; startEvents: pop');
+    m.setAttribute('animation__bob', 'property: position; from: 0 0 0; to: 0 0 0.02; dir: alternate; loop: true; dur: 1800; easing: easeInOutSine');
+    t.appendChild(m);
+    t.addEventListener('targetFound', () => { m.emit('pop'); title.textContent = name; title.style.display = 'block'; });
+    t.addEventListener('targetLost', () => { title.style.display = 'none'; m.setAttribute('scale', '0 0 0'); });
+    targets.appendChild(t);
+  });
+</script>
+</body>
+</html>
