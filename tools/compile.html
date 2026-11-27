@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Тірі аңыздар — AR белгілерін компиляциялау</title>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>body{font-family:system-ui;background:#120c1c;color:#f4efe6;padding:24px} #log{white-space:pre-wrap;font-family:monospace}</style>
+</head>
+<body>
+<h2>AR белгілерін (targets.mind) және QR-кодты жасау</h2>
+<div id="log">Дайындалуда...</div>
+<script>
+  const ids = ["cover","et1","et2","et3","et4","et5","et6","zh1","zh2","zh3","zh4","al1","al2","al3","al4","al5","final"];
+  const log = (s) => { document.getElementById('log').textContent += "\n" + s; };
+  const params = new URLSearchParams(location.search);
+
+  async function save(name, blob) {
+    const r = await fetch('/save?name=' + encodeURIComponent(name), { method: 'POST', body: blob });
+    log((r.ok ? 'САҚТАЛДЫ: ' : 'ҚАТЕ: ') + name);
+  }
+
+  function loadImage(src) {
+    return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  }
+
+  async function makeQR(url) {
+    const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+    const n = qr.getModuleCount(), cell = 16, margin = 4 * cell, size = n * cell + margin * 2;
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, size, size); g.fillStyle = '#120c1c';
+    for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (qr.isDark(y, x)) g.fillRect(margin + x * cell, margin + y * cell, cell, cell);
+    const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+    await save('qr.png', blob);
+    log('QR мазмұны: ' + url);
+  }
+
+  (async () => {
+    try {
+      if (params.get('url')) await makeQR(params.get('url'));
+      if (params.get('qrOnly')) { log('ДАЙЫН'); document.title = 'DONE'; return; }
+      const imgs = [];
+      for (const id of ids) { imgs.push(await loadImage('../pages/' + id + '.png')); }
+      log('Суреттер жүктелді: ' + imgs.length);
+      const { Compiler } = await import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js');
+      const compiler = new Compiler();
+      await compiler.compileImageTargets(imgs, (p) => { document.title = 'Компиляция ' + p.toFixed(0) + '%'; });
+      const data = await compiler.exportData();
+      await save('targets.mind', new Blob([data]));
+      log('ДАЙЫН');
+      document.title = 'DONE';
+    } catch (e) { log('ҚАТЕ: ' + e); document.title = 'ERROR'; }
+  })();
+</script>
+</body>
+</html>
