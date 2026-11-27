@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тірі аңыздар — AR кітап</title>
+<meta name="description" content="Қазақ аңыздарының анимацияланған 3D AR кітабы: Ер Төстік, Жиренше мен Қарашаш, Алпамыс батыр">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700;900&family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#120c1c; --panel:#1d1430; --gold:#ffc40d; --accent:#00b0c9; --text:#f4efe6; --muted:#b9aecb; --red:#b3261e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background: radial-gradient(1200px 700px at 70% -10%, #3a1f5c 0%, var(--bg) 60%); color:var(--text); font-family:'Noto Sans',sans-serif; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+  header { display:flex; flex-direction:column; gap:10px; padding: 28px 0 12px; }
+  h1 { font-family:'Noto Serif',serif; font-size: clamp(42px, 9vw, 92px); line-height:.95; margin:0;
+       background: linear-gradient(180deg,#fff 30%, var(--gold) 70%, #ff7a5c); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .tag { color: var(--gold); font-weight:700; letter-spacing:.06em; }
+  .ornament { height: 22px; background: repeating-linear-gradient(90deg, transparent 0 10px, rgba(255,196,13,.55) 10px 14px, transparent 14px 24px); border-radius: 4px; max-width: 520px; }
+  p.lead { color: var(--muted); font-size: 18px; max-width: 700px; }
+  .btns { display:flex; flex-wrap:wrap; gap:12px; margin: 18px 0 6px; }
+  a.btn { display:inline-flex; align-items:center; gap:10px; padding: 16px 22px; border-radius: 14px; text-decoration:none; font-weight:900; color:#1b1200; background: var(--gold); box-shadow: 0 8px 24px rgba(255,196,13,.25); }
+  a.btn.alt { background: var(--panel); color: var(--text); border: 1px solid rgba(255,255,255,.12); box-shadow:none; }
+  section { margin-top: 42px; }
+  h2 { font-size: 26px; margin: 0 0 14px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border-radius: 14px; overflow:hidden; border: 1px solid rgba(255,255,255,.08); }
+  .card img { width:100%; display:block; aspect-ratio:1/1; object-fit:cover; }
+  .card div { padding: 10px 12px; font-size: 14px; }
+  .card b { display:block; color: var(--gold); font-size: 12px; letter-spacing:.06em; }
+  .steps { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .step { background: var(--panel); border-radius: 14px; padding: 18px; border-left: 4px solid var(--accent); }
+  .step h3 { margin: 0 0 6px; font-size: 18px; }
+  .step p { margin:0; color: var(--muted); }
+  footer { margin-top: 50px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 560px) { a.btn { width:100%; justify-content:center; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="tag">AR ТЕХНОЛОГИЯСЫ БАР АНИМАЦИЯЛАНҒАН 3D КІТАП</span>
+    <h1>ТІРІ<br>АҢЫЗДАР</h1>
+    <div class="ornament"></div>
+    <p class="lead">Қазақ халқының үш аңызы тіріледі: <b>Ер Төстік</b>, <b>Жиренше мен Қарашаш</b>, <b>Алпамыс батыр</b>. Кейіпкерлер сөйлейді, қозғалады, ал сен олардың көзімен қарап, оқиғаға өзің араласасың.</p>
+    <div class="btns">
+      <a class="btn" href="ar.html">◎ Браузерде AR ашу</a>
+      <a class="btn alt" href="TiriAnyzdar.apk">⇩ Android қосымшасы (APK)</a>
+      <a class="btn alt" href="#pages">◫ Сканерлеуге арналған беттер</a>
+    </div>
+  </header>
+
+  <section>
+    <h2>Қалай қолданамын?</h2>
+    <div class="steps">
+      <div class="step"><h3>1. QR-кодты сканерле</h3><p>Телефон камерасын кітап мұқабасындағы QR-кодқа бағытта — осы бет ашылады.</p></div>
+      <div class="step"><h3>2. «Браузерде AR» бас</h3><p>Камераға рұқсат бер. Ештеңе орнатудың қажеті жоқ: Android және iPhone-да жұмыс істейді.</p></div>
+      <div class="step"><h3>3. Бетке бағытта</h3><p>Камераны төмендегі кез келген бет суретіне бағытта — үстінен 3D диорама көтеріледі.</p></div>
+      <div class="step"><h3>4. Толық нұсқа</h3><p>Android қосымшасында кейіпкердің көзімен қарау, жұмбақтар, мини-ойындар, портал және бет-маска бар.</p></div>
+    </div>
+  </section>
+
+  <section id="pages">
+    <h2>Кітап беттері (AR белгілері)</h2>
+    <p class="lead">Бұл суреттерді компьютер экранына шығарып немесе басып, телефонмен сканерле.</p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>Тірі аңыздар • Unity 6 • AR Foundation • ARCore • MindAR • three.js • халық ертегілерінің желісі бойынша еркін баяндау</footer>
+</div>
+<script>
+  const pages = [
+    ["cover","Тірі аңыздар","Қош келдің, оқырман!"],
+    ["et1","Ер Төстік","Ерназардың ұлдары"],["et2","Ер Төстік","Шалқұйрық"],["et3","Ер Төстік","Ағалар мен Кеңжекей"],
+    ["et4","Ер Төстік","Жалмауыз кемпір"],["et5","Ер Төстік","Жер асты елі"],["et6","Ер Төстік","Елге оралу"],
+    ["zh1","Жиренше мен Қарашаш","Өзен жағасындағы кездесу"],["zh2","Жиренше мен Қарашаш","Ханның тоқтысы"],
+    ["zh3","Жиренше мен Қарашаш","Бұқаның сүті"],["zh4","Жиренше мен Қарашаш","Ең қымбат қазына"],
+    ["al1","Алпамыс батыр","Байбөрінің тілегі"],["al2","Алпамыс батыр","Гүлбаршынға сапар"],["al3","Алпамыс батыр","Тайшықтың айласы"],
+    ["al4","Алпамыс батыр","Қаракөздің көмегі"],["al5","Алпамыс батыр","Ұлтанның әшкереленуі"],["final","Тірі аңыздар","Аңыздар сақшысы"]
+  ];
+  const g = document.getElementById('grid');
+  for (const [id, tale, ch] of pages) {
+    const d = document.createElement('a'); d.className = 'card'; d.href = 'pages/' + id + '.png'; d.target = '_blank'; d.style.textDecoration='none'; d.style.color='inherit';
+    d.innerHTML = `<img src="pages/${id}.png" alt="${ch}" loading="lazy"><div><b>${tale.toUpperCase()}</b>${ch}</div>`;
+    g.appendChild(d);
+  }
+</script>
+</body>
+</html>
